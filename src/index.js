@@ -67,6 +67,10 @@ wss.on('connection', (ws, req) => {
 
   ws.on('message', (message) => {
     if (verbose) log(`MSG from ${host}`, chalk.gray(message))
+    if(message == 'ping') {
+      ws.send(JSON.stringify({type: "update", contentType: "ping", data: "pong"}), (error) => {});
+      return;
+    }
     broadcast({ ws, channelId, message })
   })
 
